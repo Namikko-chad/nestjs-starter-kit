@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "baseUrl": "./",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": false,
+    "lib": ["ES2021"],
+    "module": "Node16",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "target": "ES2021",
+    "types": ["node"],
+    "paths": {
+      "@libs/config": ["libs/config/src"],
+      "@libs/config/*": ["libs/config/src/*"],
+      "@libs/utils": ["libs/utils/src"],
+      "@libs/utils/*": ["libs/utils/src/*"],
+    }
+  },
+  "include": ["apps/**/*", "libs/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,22 @@
+{
+   "type": "postgres",
+   "host": "localhost",
+   "port": 5432,
+   "username": "starter-kit",
+   "password": "starter-kit",
+   "database": "starter-kit",
+   "synchronize": false,
+   "logging": false,
+   "entities": [
+      "dist/apps/backend/src/app/**/*.entity.js"
+   ],
+   "migrations": [
+      "dist/apps/backend/src/migrations/**/*.js"
+   ],
+   "subscribers": [
+      "dist/apps/backend/src/subscriber/**/*.js"
+   ],
+   "seeds": [
+      "dist/apps/backend/src/seeds/**/*.js"
+   ],
+}

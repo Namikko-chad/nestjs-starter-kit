@@ -1,0 +1,10 @@
+# Dependency directories
+node_modules
+
+# Build files and tests
+dist
+
+# CI/CD
+ci-scripts
+.github
+sonar-project.properties

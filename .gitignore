@@ -1,0 +1,55 @@
+# ide files
+.idea
+.vscode
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+allFiredEvents
+scTopics
+
+# node-waf configuration
+.lock-wscript
+
+# Dependency directory
+node_modules
+
+# Debug log from npm
+npm-debug.log
+
+# local env variables
+.env
+
+# build directory
+build/
+dist/
+
+# assets directory
+assets/
+
+# lol macs
+.DS_Store/
+
+# npm lock files
+package-lock.json
+pnpm-lock.yaml
+
+# Test
+testing.js
+test.js
+
+# DB
+db.sqlite
+db-config.json
+.ormconfig
+ormconfig.json
+ormconfig.*.json
+
+# Cache
+.eslintcache
+.docker
