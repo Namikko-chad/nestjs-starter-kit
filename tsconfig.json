@@ -15,7 +15,8 @@
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
+    // TODO change bottom param to true
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "outDir": "./dist",
     "removeComments": true,
@@ -28,6 +29,8 @@
     "paths": {
       "@libs/config": ["libs/config/src"],
       "@libs/config/*": ["libs/config/src/*"],
+      "@libs/tools": ["libs/tools/src"],
+      "@libs/tools/*": ["libs/tools/src/*"],
       "@libs/utils": ["libs/utils/src"],
       "@libs/utils/*": ["libs/utils/src/*"],
     }

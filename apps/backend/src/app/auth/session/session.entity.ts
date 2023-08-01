@@ -8,7 +8,7 @@ export class Session extends AbstractEntity {
     userId!: string;
 
   @Column()
-    userAgent!: string;
+    userAgent?: string;
 
   @Column()
     ip!: string;

@@ -1,7 +1,15 @@
+import { Injectable, } from '@nestjs/common';
 import { ConfigService, } from '@nestjs/config';
 
-export function rabbitConfig(configService: ConfigService) {
-  return {
-    utl: configService.getOrThrow<string>('RABBIT_URL'),
-  };
+interface RabbitConfigInterface {
+  readonly utl: string;
+}
+
+@Injectable()
+export class RabbitConfig implements RabbitConfigInterface {
+  public readonly utl: string;
+
+  constructor(private readonly configService: ConfigService) {
+    this.utl = this.configService.getOrThrow<string>('RABBIT_URL');
+  }
 }

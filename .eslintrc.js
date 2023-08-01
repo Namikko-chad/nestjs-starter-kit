@@ -175,7 +175,7 @@ const tsRules = {
    * @description Требует использовать все переменные
    * @summary используются все ресурсы
    */
-  "@typescript-eslint/no-unused-vars": ["off", /*{ "destructuredArrayIgnorePattern": "^_" }*/],
+  '@typescript-eslint/no-unused-vars': ["off", /*{ "destructuredArrayIgnorePattern": "^_" }*/],
   /**
    * @link https://typescript-eslint.io/rules/no-var-requires/
    * @description Запрещяет использование var и старых способов импорта

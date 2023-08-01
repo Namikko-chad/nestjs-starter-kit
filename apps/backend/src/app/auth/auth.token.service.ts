@@ -31,5 +31,7 @@ export class AuthTokenService extends JwtService {
     });
   }
 
-  public refreshToken(tokenType: Token, token: string): 
+  // public refreshToken(tokenType: Token, token: string) {
+
+  // }
 }

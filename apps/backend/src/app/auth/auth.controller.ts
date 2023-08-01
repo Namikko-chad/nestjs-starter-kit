@@ -1,5 +1,6 @@
 import { Controller, Get, Headers, Param, Request, UseGuards, UsePipes, ValidationPipe, } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags, } from '@nestjs/swagger';
+import { RequestAuth, } from '@libs/utils/dto';
 import { Exception, } from '@libs/utils/Exception';
 
 import { AuthParamsDTO, } from './auth.dto';
@@ -8,8 +9,7 @@ import { AuthTokenService, } from './auth.token.service';
 import { JwtAccessGuard, } from './guards/jwt-access.guard';
 import { JwtRefreshGuard, } from './guards/jwt-refresh.guard';
 import { MultipleAuthorizeGuard, MultipleGuardsReferences, } from './guards/multiple.guard';
-import { RequestAuth } from '@libs/utils/dto';
-import { JwtResponse } from './strategies/jwt.constants';
+import { JwtResponse, } from './strategies/jwt.constants';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -19,15 +19,19 @@ export class AuthController {
   @Get('refresh')
   @ApiOperation({
     description: 'JWT token refresh',
-  })
+    })
   @ApiBearerAuth()
   @UseGuards(JwtRefreshGuard)
   async refresh(@Request() req: RequestAuth): Promise<JwtResponse> {
     const session = req.user;
 
-    const data = await this._service.refresh(session);
+    // const data = await this._service.refresh(session);
+    const data = {
+      accessToken: '',
+      refreshToken: '',
+    };
 
-    return data;
+    return Promise.resolve(data);
   }
 
   // @Post('token/generate/:tokenType')
@@ -51,7 +55,7 @@ export class AuthController {
     })
   @UsePipes(new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true, }))
   tokenInfo(@Param() params: AuthParamsDTO, @Headers() headers: Record<string, string>): unknown {
-    const authorization = headers?.['authorization'] as string;
+    const authorization = headers?.['authorization'] ;
     if (!authorization)
       throw new Exception(AuthErrors.TokenNotFound, AuthErrorsMessages[AuthErrors.TokenNotFound]);
 

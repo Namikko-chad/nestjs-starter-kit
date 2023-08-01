@@ -7,12 +7,13 @@ import { AuthController, } from './auth.controller';
 import { AuthTokenService, } from './auth.token.service';
 import { JwtAccessGuard, } from './guards/jwt-access.guard';
 import { JwtRefreshGuard, } from './guards/jwt-refresh.guard';
-import { RecaptchaGuard } from './guards/recaptcha/recaptcha.guard';
+import { AuthNativeModule, } from './implementations/native/auth.native.module';
+import { SessionModule, } from './session/session.module';
 
 @Module({
-  imports: [JwtModule.register({})],
+  imports: [JwtModule.register({}),  SessionModule, AuthNativeModule],
   controllers: [AuthController],
-  providers: [ConfigService, AuthConfig, AuthTokenService, JwtAccessGuard, JwtRefreshGuard, RecaptchaGuard],
-  exports: [AuthTokenService, JwtAccessGuard, JwtRefreshGuard, RecaptchaGuard],
+  providers: [ConfigService, AuthConfig, AuthTokenService, JwtAccessGuard, JwtRefreshGuard],
+  exports: [AuthTokenService, JwtAccessGuard, JwtRefreshGuard],
   })
 export class AuthModule {}

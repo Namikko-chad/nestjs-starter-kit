@@ -9,7 +9,7 @@ import { SessionRepository, } from './session.repository';
 
 export interface SessionPayload {
   userId: string;
-  userAgent: string;
+  userAgent?: string;
   ip: string;
 }
 

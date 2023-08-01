@@ -1,12 +1,19 @@
-import { Body, Controller, Inject, Post, } from '@nestjs/common';
-import { ApiHeader, ApiOperation, ApiTags, } from '@nestjs/swagger';
+import { Body, Controller, Inject, Post, Req, UsePipes, ValidationPipe, } from '@nestjs/common';
+import { ApiOperation, ApiTags, } from '@nestjs/swagger';
+import { Throttle, } from '@nestjs/throttler';
+import { AppConfig, } from '@libs/config/app';
+import { Request, } from 'express';
 
-import { RecaptchaGuard, } from '../../guards/recaptcha/recaptcha.guard';
+import { PasswordRecoveryConfirmDto,PasswordRecoveryDto, SignInDto, SignUpConfirmDto, SignUpDto, SignUpResendDto, } from './auth.native.dto';
 import { AuthNativeService, } from './auth.native.service';
 
 @ApiTags('auth')
 @Controller('auth')
+@UsePipes(new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true, }))
 export class AuthNativeController {
+  @Inject()
+  private readonly _appConfig: AppConfig;
+
   @Inject()
   private readonly _service: AuthNativeService;
 
@@ -14,70 +21,61 @@ export class AuthNativeController {
   @ApiOperation({
     description: 'Sign up',
     })
-  @ApiHeader({
-    name: 'recaptcha',
-    description: 'The reCAPTCHA token for validation',
-    })
-  @UseGuards(RecaptchaGuard)
-  async signUp(@Body() payload: SignUpDto) {
-    await this._service.signUp(payload);
+  async signUp(@Body() payload: SignUpDto): Promise<void | { token: unknown; }> {
+    const res = await this._service.signUp(payload);
+    if (this._appConfig.development)
+      return {
+        token: res.security.emailConfirmation?.['code'],
+      };
   }
 
-  @Get('sign-up/confirm')
+  @Post('sign-up/confirm')
   @ApiOperation({
     description: 'Sign up confirm',
     })
-  async signUpConfirm(@Query() query: TokenDto) {
-    const response = await this._service.signUpConfirm(query);
-
-    return response;
-  }
-
-  @Post('sign-in')
-  @ApiOperation({
-    description: 'Sign in',
-    })
-  @ApiHeader({
-    name: 'recaptcha',
-    description: 'The reCAPTCHA token for validation',
-    })
-  @UseGuards(RecaptchaGuard)
-  async signIn(@Body() payload: SignInDto) {
-    const response = await this._service.signIn(payload);
-
-    return response;
+  async signUpConfirm(@Body() payload: SignUpConfirmDto) {
+    return await this._service.signUpConfirm(payload);
   }
 
   @Post('sign-up/resend')
   @ApiOperation({
     description: 'Resend sign up',
     })
-  @UseGuards(RecaptchaGuard)
-  @Throttle(config.rate_limit.resend.default.limit, config.rate_limit.resend.default.rate)
+  @Throttle(1, 60)
   async signUpResend(@Body() payload: SignUpResendDto) {
     await this._service.signUpResend(payload);
+  }
+
+  @Post('sign-in')
+  @ApiOperation({
+    description: 'Sign in',
+    })
+  async signIn(@Req() request: Request, @Body() payload: SignInDto) {
+    const { ip, } = request;
+    const userAgent = request.headers['user-agent'];
+    const response = await this._service.signIn({
+      ...payload,
+      userAgent,
+      ip,
+    });
+
+    return response;
   }
 
   @Post('password-recovery')
   @ApiOperation({
     description: 'Password recovery',
     })
-  @ApiHeader({
-    name: 'recaptcha',
-    description: 'The reCAPTCHA token for validation',
-    })
-  @UseGuards(RecaptchaGuard)
-  @Throttle(config.rate_limit.resend.default.limit, config.rate_limit.resend.default.rate)
+  @Throttle(1, 60)
   async passwordRecovery(@Body() payload: PasswordRecoveryDto) {
     await this._service.passwordRecovery(payload);
   }
 
-  @Put('password-recovery/confirm')
+  @Post('password-recovery/confirm')
   @ApiOperation({
     description: 'Password recovery confirm',
     })
-  @UseGuards(RecaptchaGuard)
-  async passwordRecoveryConfirm(@Query() query: TokenDto, @Body() payload: PasswordRecoveryConfirmDto) {
-    await this._service.passwordRecoveryConfirm(query, payload);
+  async passwordRecoveryConfirm(@Body() payload: PasswordRecoveryConfirmDto) {
+    await this._service.passwordRecoveryConfirm(payload);
   }
 }
