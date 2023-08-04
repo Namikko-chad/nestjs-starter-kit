@@ -33,6 +33,8 @@
       "@libs/tools/*": ["libs/tools/src/*"],
       "@libs/utils": ["libs/utils/src"],
       "@libs/utils/*": ["libs/utils/src/*"],
+      "@libs/web3": ["libs/web3/src"],
+      "@libs/web3/*": ["libs/web3/src/*"],
     }
   },
   "include": ["apps/**/*", "libs/**/*"],

@@ -2,9 +2,10 @@ import { Inject, Injectable, } from '@nestjs/common';
 import { Exception, } from '@libs/utils/Exception';
 import { DataSource, } from 'typeorm';
 
-import { UsersErrors, UsersErrorsMessages, } from '../../../users';
+import { UsersErrors, UsersErrorsMessages, UsersRepository, } from '../../../users';
 import { UserStatus, } from '../../../users/user.enum';
 import { UserProcessor, } from '../../../users/users.processor';
+import { Session, } from '../../session';
 import { SessionService, } from '../../session/session.service';
 import { PasswordRecoveryConfirmDto, PasswordRecoveryDto, SignInDto, SignUpConfirmDto, SignUpDto, SignUpResendDto, } from './auth.native.dto';
 import { AuthNative, } from './auth.native.entity';
@@ -21,6 +22,10 @@ export class AuthNativeService {
 
   @Inject()
   private readonly _userProcessor: UserProcessor;
+
+  @Inject()
+  private readonly _userRepository: UsersRepository;
+  
   @Inject()
   private readonly _sessionService: SessionService;
 
@@ -38,8 +43,18 @@ export class AuthNativeService {
         throw new Exception(AuthNativeErrors.AlreadyExist, AuthNativeErrorsMessages[AuthNativeErrors.AlreadyExist], {
           email: payload.email,
         });
-      const user = await this._userProcessor.create({}, queryRunner);
-      const userNative = this._repository.create({
+
+      let user = await this._userRepository.findOneBy({
+        email: payload.email,
+      });
+
+      if (!user) {
+        user = await this._userProcessor.create({
+          email: payload.email,
+        }, queryRunner);
+      }
+
+      const nativeUser = this._repository.create({
         ...payload,
         userId: user.id,
         security: {
@@ -49,10 +64,10 @@ export class AuthNativeService {
           },
         },
       });
-      await this._repository.save(userNative, { queryRunner, });
+      await this._repository.save(nativeUser, { queryRunner, });
       await queryRunner.commitTransaction();
 
-      return userNative;
+      return nativeUser;
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;
@@ -87,6 +102,31 @@ export class AuthNativeService {
     //   email: payload.email.toLowerCase(),
     //   token: signUp.token,
     // });
+  }
+
+  async signUpAppend(session: Session, payload: SignUpDto): Promise<AuthNative> {
+    const existedUser = await this._repository.findOne({
+      where: {
+        email: payload.email,
+      },
+    });
+    if (existedUser)
+      throw new Exception(AuthNativeErrors.AlreadyExist, AuthNativeErrorsMessages[AuthNativeErrors.AlreadyExist], {
+        email: payload.email,
+      });
+      
+    const nativeUser = this._repository.create({
+      ...payload,
+      userId: session.userId,
+      security: {
+        // TODO add confirmation-service
+        emailConfirmation: {
+          code: 'test',
+        },
+      },
+    });
+
+    return nativeUser;
   }
 
   async signIn(payload: SignInDto & {

@@ -13,5 +13,6 @@ module.exports = {
     '^@libs/config(|/.*)$': '<rootDir>/libs/config/src/$1',
     '^@libs/tools(|/.*)$': '<rootDir>/libs/tools/src/$1',
     '^@libs/utils(|/.*)$': '<rootDir>/libs/utils/src/$1',
+    '^@libs/web3(|/.*)$': '<rootDir>/libs/web3/src/$1',
   },
 };

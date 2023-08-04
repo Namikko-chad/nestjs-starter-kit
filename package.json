@@ -47,7 +47,8 @@
     "rxjs": "^7.2.0",
     "swagger-ui-express": "^4.4.0",
     "typeorm": "^0.3.12",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "web3": "^1.8.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
@@ -94,7 +95,11 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "web3-core": "^1.8.0",
+    "web3-eth": "^1.8.0",
+    "web3-eth-contract": "^1.8.0",
+    "web3-utils": "^1.8.0"
   },
   "scripts": {
     "clean": "shx rm -rf dist",

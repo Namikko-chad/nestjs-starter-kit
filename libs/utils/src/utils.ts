@@ -52,4 +52,8 @@ export class Utils {
       skip,
     };
   }
+
+  static isEthAddress(value: string) {
+    return /^0x[a-fA-F0-9]{40}$/g.test(value);
+  }
 }

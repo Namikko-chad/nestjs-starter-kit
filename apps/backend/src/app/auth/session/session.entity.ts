@@ -4,10 +4,14 @@ import { Column, Entity, } from 'typeorm';
 @Entity({ schema: 'logs', })
 export class Session extends AbstractEntity {
 
-  @Column()
+  @Column({
+    type: 'uuid'
+    })
     userId!: string;
 
-  @Column()
+  @Column({
+    nullable: true
+    })
     userAgent?: string;
 
   @Column()

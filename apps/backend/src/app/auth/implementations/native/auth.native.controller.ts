@@ -1,9 +1,11 @@
-import { Body, Controller, Inject, Post, Req, UsePipes, ValidationPipe, } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Req, UseGuards, UsePipes, ValidationPipe, } from '@nestjs/common';
 import { ApiOperation, ApiTags, } from '@nestjs/swagger';
 import { Throttle, } from '@nestjs/throttler';
 import { AppConfig, } from '@libs/config/app';
 import { Request, } from 'express';
 
+import { RequestAuth, } from '../../../dto';
+import { JwtAccessGuard, } from '../../guards';
 import { PasswordRecoveryConfirmDto,PasswordRecoveryDto, SignInDto, SignUpConfirmDto, SignUpDto, SignUpResendDto, } from './auth.native.dto';
 import { AuthNativeService, } from './auth.native.service';
 
@@ -35,6 +37,16 @@ export class AuthNativeController {
     })
   async signUpConfirm(@Body() payload: SignUpConfirmDto) {
     return await this._service.signUpConfirm(payload);
+  }
+
+  @Post('sign-up/append')
+  @ApiOperation({
+    description: 'Append to exists account',
+    })
+  @UseGuards(JwtAccessGuard)
+  async signUpAppend(@Req() req: RequestAuth, @Body() payload: SignUpDto) {
+    const session = req.user;
+    await this._service.signUpAppend(session, payload);
   }
 
   @Post('sign-up/resend')

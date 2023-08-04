@@ -3,52 +3,52 @@ import { PassportStrategy, } from '@nestjs/passport';
 import { Exception, } from '@libs/utils/Exception';
 import { ExtractJwt, Strategy, } from 'passport-jwt';
 
+import { UsersErrors, UsersErrorsMessages, UsersRepository, } from '../../users';
 import { AuthConfig, } from '../auth.config';
+import { SessionErrors, SessionErrorsMessages, } from '../session';
 import { JwtPayload, SessionService, } from '../session/session.service';
 
 @Injectable()
 export default class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') {
-  private readonly _service: SessionService;
-  // private readonly _userRepository: UserRepository;
+  @Inject() private readonly _service: SessionService;
+  @Inject() private readonly _userRepository: UsersRepository;
 
   constructor(
-    @Inject(AuthConfig) config: AuthConfig,
-    session: SessionService 
-    // @Inject(UserRepository) userRepository: UserRepository
+    @Inject(AuthConfig) config: AuthConfig
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: config.jwt.access.secret,
     });
-
-    this._service = session;
-
-    // this._userRepository = userRepository;
   }
 
-  async validate(payload: JwtPayload) {
-    if (!payload?.id) {
+  async validate({ sessionId, }: JwtPayload) {
+    if (!sessionId) {
       return null;
     }
-
-    const session = await this._service.get(payload.id);
+ 
+    const session = await this._service.get(sessionId);
 
     if (!session) {
-      throw new Exception(401000, 'Session not found');
+      throw new Exception(SessionErrors.SessionNotFound, SessionErrorsMessages[SessionErrors.SessionNotFound], {
+        sessionId: sessionId,
+      });
     }
     
-    // const user = await this._userRepository.findOne({
-    //   where: {
-    //     id: session.userId,
-    //   },
-    // });
+    const user = await this._userRepository.findOne({
+      where: {
+        id: session.userId,
+      },
+    });
 
-    // if (!user) {
-    //   await this._service.delete(payload.id);
+    if (!user) {
+      await this._service.delete(sessionId);
 
-    //   throw new Exception(401000, 'Session not found');
-    // }
+      throw new Exception(UsersErrors.UserNotFound, UsersErrorsMessages[UsersErrors.UserNotFound], {
+        userId: session.userId,
+      });
+    }
 
     return session;
   }

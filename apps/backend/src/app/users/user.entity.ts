@@ -12,6 +12,11 @@ export class User extends AbstractEntity {
     username: string;
   
   @Column({
+    nullable: true
+    })
+    email: string;
+
+  @Column({
     type: 'enum',
     enum: UserStatus,
     default: UserStatus.New
@@ -24,4 +29,10 @@ export class User extends AbstractEntity {
     default: UserRole.Guest,
     })
     role: UserRole;
+
+  @Column({
+    type: 'text',
+    nullable: true
+    })
+    avatar: string;
 }

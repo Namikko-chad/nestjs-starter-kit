@@ -21,6 +21,8 @@ export class AppExceptionsFilter implements ExceptionFilter {
 
     switch (exception.constructor.name) {
       case 'HttpException':
+      case 'UnauthorizedException':
+      case 'NotFoundException':
 
       case 'ForbiddenException': {
         httpStatus = (exception as HttpException).getStatus();
