@@ -9,7 +9,7 @@ import { SessionErrors, SessionErrorsMessages, } from '../session';
 import { JwtPayload, SessionService, } from '../session/session.service';
 
 @Injectable()
-export default class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
+export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   @Inject() private readonly _service: SessionService;
   @Inject() private readonly _userRepository: UsersRepository;
 

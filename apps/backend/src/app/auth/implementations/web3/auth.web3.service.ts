@@ -3,12 +3,11 @@ import { Exception, } from '@libs/utils/Exception';
 import { Web3Service, } from '@libs/web3';
 import { DataSource, } from 'typeorm';
 
-import { User, UsersErrors, UsersErrorsMessages, UsersRepository, } from '../../../users';
+import { UsersRepository, } from '../../../users';
 import { UserProcessor, } from '../../../users/users.processor';
 import { Session, } from '../../session';
 import { SessionService, } from '../../session/session.service';
 import { JwtResponse, } from '../../strategies/jwt.constants';
-import { SignUpDto, } from '../native/auth.native.dto';
 import { SignatureDto, } from './auth.web3.dto';
 import { AuthWeb3, } from './auth.web3.entity';
 import { AuthWeb3Errors, AuthWeb3ErrorsMessages, } from './auth.web3.errors';

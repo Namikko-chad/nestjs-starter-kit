@@ -12,7 +12,8 @@ export class User extends AbstractEntity {
     username: string;
   
   @Column({
-    nullable: true
+    nullable: true,
+    unique: true
     })
     email: string;
 

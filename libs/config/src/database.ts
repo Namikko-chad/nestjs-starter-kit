@@ -2,7 +2,7 @@ import { ConfigService, } from '@nestjs/config';
 import { DefaultNamingStrategy, NamingStrategyInterface, Table, } from 'typeorm';
 import { DataSourceOptions, } from 'typeorm/data-source/DataSourceOptions';
 
-class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
+export class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
   override tableName(targetName: string, userSpecifiedName?: string): string {
     return userSpecifiedName ?? `${targetName}s`;
   }

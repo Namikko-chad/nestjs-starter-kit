@@ -12,8 +12,8 @@ import { AuthInviteModule, } from './implementations/invite/auth.invite.module';
 import { AuthNativeModule, } from './implementations/native/auth.native.module';
 import { AuthWeb3Module, } from './implementations/web3/auth.web3.module';
 import { SessionModule, } from './session/session.module';
-import JwtAccessStrategy from './strategies/jwt-access.strategy';
-import JwtRefreshStrategy from './strategies/jwt-refresh.strategy';
+import { JwtAccessStrategy, } from './strategies/jwt-access.strategy';
+import { JwtRefreshStrategy, } from './strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [JwtModule.register({}), SessionModule, AuthNativeModule, AuthWeb3Module, AuthInviteModule],

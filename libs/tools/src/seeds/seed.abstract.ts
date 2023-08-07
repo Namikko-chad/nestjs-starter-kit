@@ -1,13 +1,22 @@
+import { ConfigService, } from '@nestjs/config';
+import { AppConfig, } from '@libs/config/app';
 import fs from 'fs';
 import path from 'path';
 import { DataSource, } from 'typeorm';
 
-export default abstract class AbstractSeed {
+export abstract class AbstractSeed {
+
+  protected readonly appConfig: AppConfig;
+
+  constructor(configService: ConfigService) {
+    this.appConfig = new AppConfig(configService);
+  }
+
   abstract run(connection: DataSource): Promise<void>;
 
   protected loadSeeds<Seeds>(fileName: string): Seeds[] {
     // Reade file csv
-    const scv = path.resolve(process.cwd(), 'store', `${fileName}.csv`);
+    const scv = path.resolve(process.cwd(), 'store', fileName);
     // eslint-disable-next-line security/detect-non-literal-fs-filename
     const data = fs.readFileSync(scv, 'utf8');
     // CSV to array
