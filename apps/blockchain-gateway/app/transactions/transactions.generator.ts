@@ -4,7 +4,7 @@ import { TransactionStatus, } from '@libs/blockchain';
 import { AbstractGenerator, Utils, } from '@libs/utils';
 
 import { Chain, } from '../chains/chains.entity';
-import { ITransactionMeta, Transaction, } from './transaction.entity';
+import { ITransactionMeta, Transaction, } from './transactions.entity';
 
 export interface TransactionGeneratorOptions {
   hash?: string;
@@ -19,7 +19,7 @@ export interface TransactionGeneratorOptions {
   meta?: ITransactionMeta;
 }
 
-export default class TransactionGenerator extends AbstractGenerator<Transaction> {
+export class TransactionsGenerator extends AbstractGenerator<Transaction> {
   private readonly _transactionRepository: Repository<Transaction>;
   private readonly _chainRepository: Repository<Chain>;
 

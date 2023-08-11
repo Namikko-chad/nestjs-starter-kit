@@ -11,10 +11,9 @@ import { AuthWeb3Service, } from './auth.web3.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthWeb3]), UsersModule, Web3Module.register({
-    chainId: 1,
-    chain: 'eth',
-    provider: 'https://eth-mainnet.rpcfast.com?api_key=xbhWBI1Wkguk8SNMu1bvvLurPGLXmgwYeC4S6g2H7WdwFigZSmPWVZRxrskEQwIf',
-    name: 'Web3Service'
+    chainId: 0,
+    chain: 'auth',
+    provider: 'null',
     })],
   controllers: [AuthWeb3Controller],
   providers: [AuthWeb3Repository, AuthWeb3Service]

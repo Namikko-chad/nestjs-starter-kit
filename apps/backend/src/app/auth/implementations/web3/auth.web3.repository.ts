@@ -1,7 +1,8 @@
 import { Injectable, } from '@nestjs/common';
+import { EntityManager, SelectQueryBuilder, } from 'typeorm';
+
 import { AbstractRepository, } from '@libs/utils/database';
 import { JoinType, } from '@libs/utils/database/AbstractRepository';
-import { EntityManager, SelectQueryBuilder, } from 'typeorm';
 
 import { AuthWeb3, } from './auth.web3.entity';
 
@@ -53,6 +54,7 @@ export class AuthWeb3Repository extends AbstractRepository<
             joinCause += ` or users.username = '${variables.username}'`;
           }
 
+          // eslint-disable-next-line security/detect-object-injection
           query[method](
             `${alias}.users`, 
             'Users', 

@@ -1,5 +1,6 @@
-import { Utils, } from '@libs/utils/utils';
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, OneToOne, PrimaryColumn, } from 'typeorm';
+
+import { Utils, } from '@libs/utils/utils';
 
 import { User, } from '../../../users';
 

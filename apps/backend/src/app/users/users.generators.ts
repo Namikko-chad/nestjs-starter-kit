@@ -5,7 +5,7 @@ import { Utils, } from '@libs/utils/utils';
 
 import { User, } from './users.entity';
 
-export class UsersEntityGenerator extends AbstractGenerator<User> {
+export class UsersGenerator extends AbstractGenerator<User> {
 
   override default(): DeepPartial<User> {
     return {

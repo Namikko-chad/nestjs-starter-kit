@@ -5,4 +5,4 @@ import { AbstractRepository, } from '@libs/utils';
 import { Chain, } from './chains.entity';
 
 @Injectable()
-export class ChainRepository extends AbstractRepository<Chain> {}
+export class ChainsRepository extends AbstractRepository<Chain> {}

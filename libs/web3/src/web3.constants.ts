@@ -4,7 +4,7 @@ export const WEB3_PROVIDER_CONFIG = 'WEB3_PROVIDER_CONFIG';
 
 export interface IWeb3Config extends AbstractNetworkOptions {
   chain: string;
-  name: string;
+  name?: string;
 }
 
 export interface IWeb3Transaction {

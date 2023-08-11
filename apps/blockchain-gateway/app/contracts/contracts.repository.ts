@@ -6,4 +6,4 @@ import { AbstractRepository, } from '@libs/utils';
 import { Contract, } from './contracts.entity';
 
 @Injectable()
-export class ContractRepository extends AbstractRepository<Contract> {}
+export class ContractsRepository extends AbstractRepository<Contract> {}
