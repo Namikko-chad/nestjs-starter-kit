@@ -1,8 +1,9 @@
 import { Injectable, } from '@nestjs/common';
-import { AbstractRepository, } from '@libs/utils/database';
 import { EntityManager, SelectQueryBuilder, } from 'typeorm';
 
-import { User, } from './user.entity';
+import { AbstractRepository, } from '@libs/utils/database';
+
+import { User, } from './users.entity';
 
 
 export interface IFilter {

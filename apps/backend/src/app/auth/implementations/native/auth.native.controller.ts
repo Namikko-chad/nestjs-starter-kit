@@ -21,7 +21,7 @@ export class AuthNativeController {
 
   @Post('sign-up')
   @ApiOperation({
-    description: 'Sign up',
+    summary: 'Sign up',
     })
   async signUp(@Body() payload: SignUpDto): Promise<void | { token: unknown; }> {
     const res = await this._service.signUp(payload);
@@ -33,7 +33,7 @@ export class AuthNativeController {
 
   @Post('sign-up/confirm')
   @ApiOperation({
-    description: 'Sign up confirm',
+    summary: 'Sign up confirm',
     })
   async signUpConfirm(@Body() payload: SignUpConfirmDto) {
     return await this._service.signUpConfirm(payload);
@@ -41,7 +41,7 @@ export class AuthNativeController {
 
   @Post('sign-up/append')
   @ApiOperation({
-    description: 'Append to exists account',
+    summary: 'Append to exists account',
     })
   @UseGuards(JwtAccessGuard)
   async signUpAppend(@Req() req: RequestAuth, @Body() payload: SignUpDto) {
@@ -51,7 +51,7 @@ export class AuthNativeController {
 
   @Post('sign-up/resend')
   @ApiOperation({
-    description: 'Resend sign up',
+    summary: 'Resend sign up',
     })
   @Throttle(1, 60)
   async signUpResend(@Body() payload: SignUpResendDto) {
@@ -60,7 +60,7 @@ export class AuthNativeController {
 
   @Post('sign-in')
   @ApiOperation({
-    description: 'Sign in',
+    summary: 'Sign in',
     })
   async signIn(@Req() request: Request, @Body() payload: SignInDto) {
     const { ip, } = request;
@@ -76,7 +76,7 @@ export class AuthNativeController {
 
   @Post('password-recovery')
   @ApiOperation({
-    description: 'Password recovery',
+    summary: 'Password recovery',
     })
   @Throttle(1, 60)
   async passwordRecovery(@Body() payload: PasswordRecoveryDto) {
@@ -85,7 +85,7 @@ export class AuthNativeController {
 
   @Post('password-recovery/confirm')
   @ApiOperation({
-    description: 'Password recovery confirm',
+    summary: 'Password recovery confirm',
     })
   async passwordRecoveryConfirm(@Body() payload: PasswordRecoveryConfirmDto) {
     await this._service.passwordRecoveryConfirm(payload);

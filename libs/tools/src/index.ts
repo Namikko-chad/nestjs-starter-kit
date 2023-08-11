@@ -1,0 +1,1 @@
+export { AbstractSeed, } from './seeds/seed.abstract';

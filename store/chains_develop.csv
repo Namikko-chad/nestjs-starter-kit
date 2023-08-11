@@ -1,0 +1,7 @@
+id,symbol,name,type,decimal,confirmations_min
+1,eth,Ethereum,e,18,1
+5,goerli,Goerli,e,18,1
+56,bsc,BNB Chain,e,18,1
+97,bsc,BNB Chain Testnet,e,18,1
+95501,shasta,Shasta,t,6,1
+95500,tron,Tron,t,6,1

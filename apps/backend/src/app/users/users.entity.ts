@@ -1,7 +1,8 @@
-import { AbstractEntity, } from '@libs/utils/database';
 import { Column, Entity, } from 'typeorm';
 
-import { UserRole, UserStatus, } from './user.enum';
+import { AbstractEntity, } from '@libs/utils/database';
+
+import { UserRole, UserStatus, } from './users.enum';
 
 @Entity()
 export class User extends AbstractEntity {
@@ -9,14 +10,14 @@ export class User extends AbstractEntity {
   @Column({
     nullable: true
     })
-    username: string;
+    username?: string;
   
   @Column({
     nullable: true,
     unique: true
     })
     email: string;
-
+  
   @Column({
     type: 'enum',
     enum: UserStatus,
@@ -35,5 +36,5 @@ export class User extends AbstractEntity {
     type: 'text',
     nullable: true
     })
-    avatar: string;
+    avatar?: string;
 }

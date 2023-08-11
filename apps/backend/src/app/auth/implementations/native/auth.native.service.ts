@@ -1,10 +1,11 @@
 import { Inject, Injectable, } from '@nestjs/common';
-import { Exception, } from '@libs/utils/Exception';
 import { DataSource, } from 'typeorm';
 
+import { Exception, } from '@libs/utils/Exception';
+
 import { UsersErrors, UsersErrorsMessages, UsersRepository, } from '../../../users';
-import { UserStatus, } from '../../../users/user.enum';
-import { UserProcessor, } from '../../../users/users.processor';
+import { UserStatus, } from '../../../users/users.enum';
+import { UsersProcessor, } from '../../../users/users.processor';
 import { Session, } from '../../session';
 import { SessionService, } from '../../session/session.service';
 import { PasswordRecoveryConfirmDto, PasswordRecoveryDto, SignInDto, SignUpConfirmDto, SignUpDto, SignUpResendDto, } from './auth.native.dto';
@@ -21,7 +22,7 @@ export class AuthNativeService {
   private readonly _repository: AuthNativeRepository;
 
   @Inject()
-  private readonly _userProcessor: UserProcessor;
+  private readonly _userProcessor: UsersProcessor;
 
   @Inject()
   private readonly _userRepository: UsersRepository;

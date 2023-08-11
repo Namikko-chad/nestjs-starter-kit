@@ -1,4 +1,4 @@
-import { UserRole, } from '../../../users/user.enum';
+import { UserRole, } from '../../../users/users.enum';
 
 export interface InvitePayload {
   email: string;

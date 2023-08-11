@@ -15,7 +15,7 @@ export class AuthInviteController {
 
   @Post('sign-up')
   @ApiOperation({
-    description: 'Sign up',
+    summary: 'Sign up',
     })
   async signUp(@Req() request: Request, @Body() payload: InviteDto): Promise<JwtResponse> {
     const { ip, } = request;
@@ -32,7 +32,7 @@ export class AuthInviteController {
 
   @Post('create')
   @ApiOperation({
-    description: 'Create invite link',
+    summary: 'Create invite link',
     })
   async create(@Body() payload: InviteCreateDto): Promise<{ invite: string; }> {
     return {

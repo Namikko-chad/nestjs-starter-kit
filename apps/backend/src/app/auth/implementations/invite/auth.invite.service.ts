@@ -1,10 +1,11 @@
 import { Inject, Injectable, } from '@nestjs/common';
-import { Exception, } from '@libs/utils/Exception';
-import { InviteTokenService, } from '@libs/utils/invite-token.service';
 import { DataSource, } from 'typeorm';
 
+import { Exception, } from '@libs/utils/Exception';
+import { InviteTokenService, } from '@libs/utils/invite-token.service';
+
 import { UsersRepository, } from '../../../users';
-import { UserProcessor, } from '../../../users/users.processor';
+import { UsersProcessor, } from '../../../users/users.processor';
 import { SessionService, } from '../../session/session.service';
 import { JwtResponse, } from '../../strategies/jwt.constants';
 import { InviteCreateDto, InviteDto, } from './auth.invite.dto';
@@ -17,7 +18,7 @@ export class AuthInviteService {
   private readonly _ds: DataSource;
 
   @Inject()
-  private readonly _userProcessor: UserProcessor;
+  private readonly _userProcessor: UsersProcessor;
 
   @Inject()
   private readonly _userRepository: UsersRepository;

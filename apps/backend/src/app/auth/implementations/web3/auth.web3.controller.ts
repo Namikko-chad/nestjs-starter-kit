@@ -16,7 +16,7 @@ export class AuthWeb3Controller {
 
   @Post('sign-up')
   @ApiOperation({
-    description: 'Sign up',
+    summary: 'Sign up',
     })
   async signUp(@Req() request: RequestAuth, @Body() payload: SignatureDto): Promise<JwtResponse> {
     const { ip, } = request;
@@ -32,7 +32,7 @@ export class AuthWeb3Controller {
 
   @Post('sign-up/append')
   @ApiOperation({
-    description: 'Append to exists account',
+    summary: 'Append to exists account',
     })
   @UseGuards(JwtAccessGuard)
   async signUpAppend(@Req() req: RequestAuth, @Body() payload: SignatureDto) {

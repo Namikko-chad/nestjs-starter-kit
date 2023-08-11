@@ -2,7 +2,8 @@ import { ApiProperty, } from '@nestjs/swagger';
 import { Type, } from 'class-transformer';
 import { IsDate, IsEmail, IsEnum, IsString, } from 'class-validator';
 
-import { UserRole, } from '../../../users/user.enum';
+import { UserRole, } from '../../../users/users.enum';
+
 
 export class InviteDto {
   @ApiProperty()

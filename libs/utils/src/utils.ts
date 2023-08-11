@@ -8,6 +8,10 @@ export class Utils {
     return uuidv4();
   }
 
+  static getInt(): number {
+    return Math.floor(Math.random() * 100000);
+  }
+
   static async delay(ms: number): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, ms));
   }

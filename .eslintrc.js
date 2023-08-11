@@ -153,6 +153,7 @@ const tsRules = {
         ['^@nestjs', '^@?\\w'],
         ['^@hapi', '^@?\\w'],
         ['^@jest', '^@?\\w'],
+        ['^@libs', '^@?\\w'],
         // Internal packages.
         ['^(@|app)(/.*|$)'],
         // Side effect imports.

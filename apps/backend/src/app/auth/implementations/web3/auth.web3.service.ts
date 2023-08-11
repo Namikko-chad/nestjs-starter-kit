@@ -1,10 +1,11 @@
 import { Inject, Injectable, } from '@nestjs/common';
-import { Exception, } from '@libs/utils/Exception';
-import { Web3Service, } from '@libs/web3';
 import { DataSource, } from 'typeorm';
 
+import { Exception, } from '@libs/utils/Exception';
+import { Web3Service, } from '@libs/web3';
+
 import { UsersRepository, } from '../../../users';
-import { UserProcessor, } from '../../../users/users.processor';
+import { UsersProcessor, } from '../../../users/users.processor';
 import { Session, } from '../../session';
 import { SessionService, } from '../../session/session.service';
 import { JwtResponse, } from '../../strategies/jwt.constants';
@@ -22,7 +23,7 @@ export class AuthWeb3Service {
   private readonly _repository: AuthWeb3Repository;
 
   @Inject()
-  private readonly _userProcessor: UserProcessor;
+  private readonly _userProcessor: UsersProcessor;
 
   @Inject()
   private readonly _userRepository: UsersRepository;
@@ -41,11 +42,16 @@ export class AuthWeb3Service {
     await queryRunner.startTransaction();
 
     try {
-      const address = this._web3Service.recover('Authenticate me', payload.signature);
-      if (!address)
+      let address: string;
+  
+      try {
+        address = this._web3Service.recover('Authenticate me', payload.signature);
+      } catch (error) {
         throw new Exception(AuthWeb3Errors.SignatureBroken, AuthWeb3ErrorsMessages[AuthWeb3Errors.SignatureBroken], {
           signature: payload.signature,
         });
+      }
+
       let web3User = await this._repository.findOne({
         where: {
           address,
@@ -78,11 +84,16 @@ export class AuthWeb3Service {
   }
   
   async signUpAppend(session: Session, payload: SignatureDto): Promise<AuthWeb3> {
-    const address = this._web3Service.recover('Authenticate me', payload.signature);
-    if (!address)
+    let address: string;
+
+    try {
+      address = this._web3Service.recover('Authenticate me', payload.signature);
+    } catch (error) {
       throw new Exception(AuthWeb3Errors.SignatureBroken, AuthWeb3ErrorsMessages[AuthWeb3Errors.SignatureBroken], {
         signature: payload.signature,
       });
+    }
+
     let web3User = await this._repository.findOne({
       where: {
         address,

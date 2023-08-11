@@ -4,6 +4,8 @@ In todo list we can describe all needs features/refactors/optimisations plans. A
 
 ### Todo
 
+- Fix CryptoUtils config
+
 ### In Progress
 
 ### Done ✓

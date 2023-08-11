@@ -1,9 +1,11 @@
 import { Inject, Injectable, } from '@nestjs/common';
 import Web3 from 'web3';
 import { BlockTransactionString, Transaction, TransactionReceipt, } from 'web3-eth';
-import { AbiItem, Mixed, } from 'web3-utils';
+import { AbiItem, } from 'web3-utils';
 
-import { ISignResponse, IWeb3Config, } from './web3.constants';
+import { AbstractNetwork, } from '@libs/blockchain';
+
+import { ISignResponse, IWeb3Config, WEB3_PROVIDER_CONFIG, } from './web3.constants';
 
 export interface IParameterType {
   type: string;
@@ -15,48 +17,40 @@ export interface IParameter extends IParameterType {
 }
 
 @Injectable()
-export class Web3Service {
-  private readonly _options: IWeb3Config;
+export class Web3Service extends AbstractNetwork {
+  protected readonly options: IWeb3Config;
 
-  private _provider: Web3;
+  private _provider = new Web3();
 
-  constructor(@Inject('WEB3_PROVIDER_CONFIG') options: IWeb3Config) {
-    this._options = options;
-    this._connect();
+  constructor(@Inject(WEB3_PROVIDER_CONFIG) _options?: IWeb3Config) {
+    super();
+
+    if (_options) {
+      this.options = _options;
+      this.connect();
+    }
   }
 
-  private _connect(): void {
-    const provider = this._options.provider
-      ? new Web3.providers.HttpProvider(this._options.provider)
-      : null;
-    this._provider = new Web3(provider);
+  protected connect(): void {
+    this._provider = new Web3(new Web3.providers.HttpProvider(this.options.provider));
   }
 
-  get chainId() {
-    return this._options.chainId;
-  }
-
-  get provider() {
-    return this._options.provider;
-  }
-
-  sign(data: string | Mixed[], privateKey: string): ISignResponse {
-    const message = Array.isArray(data)
-      ? this._provider.utils.soliditySha3(...data) as string
-      : data;
+  sign(message: string, privateKey: string): ISignResponse {
     const response = this._provider.eth.accounts.sign(message, privateKey);
 
     return response;
   }
 
-  recover(data: string | Mixed[], signature: string) {
-    const message = Array.isArray(data)
-      ? this._provider.utils.soliditySha3(...data) as string
-      : data;
-
+  recover(message: string, signature: string): string {
     const address = this._provider.eth.accounts.recover(message, signature);
 
     return address.toLowerCase();
+  }
+
+  public async getCurrentBlock(): Promise<BlockTransactionString> {
+    const block = await this._provider.eth.getBlock('latest');
+
+    return block;
   }
 
   public async getBlock(blockHash: string): Promise<BlockTransactionString>
@@ -73,8 +67,8 @@ export class Web3Service {
     return blockHeight;
   }
 
-  public async getTransaction(txId: string): Promise<Transaction> {
-    const data = await this._provider.eth.getTransaction(txId);
+  public async getTransaction(hash: string): Promise<Transaction> {
+    const data = await this._provider.eth.getTransaction(hash);
 
     return data;
   }
@@ -85,6 +79,20 @@ export class Web3Service {
     const data = await this._provider.eth.getTransactionReceipt(txId);
 
     return data;
+  }
+
+  public decodeLogs(
+    parameters: IParameter[],
+    hex: string,
+    topics: string[]
+  ): unknown {
+    try {
+      const output = this._provider.eth.abi.decodeLog(parameters, hex, topics);
+
+      return output;
+    } catch (err) {
+      return null;
+    }
   }
 
   public decodeParameters(parameters: IParameter[], data: string): unknown {
@@ -126,20 +134,6 @@ export class Web3Service {
         to,
         data,
       });
-
-      return output;
-    } catch (err) {
-      return null;
-    }
-  }
-
-  public decodeLogs(
-    parameters: IParameter[],
-    hex: string,
-    topics: string[]
-  ): unknown {
-    try {
-      const output = this._provider.eth.abi.decodeLog(parameters, hex, topics);
 
       return output;
     } catch (err) {

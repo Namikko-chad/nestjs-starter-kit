@@ -1,8 +1,9 @@
 import { ConfigModule, ConfigService, } from '@nestjs/config';
-import { databaseConfig, } from '@libs/config/database';
 import { DataSource, } from 'typeorm';
 
-const schemas = ['public', 'logs'];
+import { databaseConfig, } from '@libs/config/database';
+
+const schemas = ['public', 'logs', 'blockchain_gateway'];
 
 async function init(): Promise<void> {
   ConfigModule.forRoot();

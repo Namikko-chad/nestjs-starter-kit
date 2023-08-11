@@ -1,17 +1,13 @@
+import { AbstractNetworkOptions, } from '@libs/blockchain/AbstractNetwork';
+
 export const WEB3_PROVIDER_CONFIG = 'WEB3_PROVIDER_CONFIG';
 
-export interface IWeb3Config {
-  chain?: string;
-  chainId?: number;
-  provider?: string;
-  name?: string;
+export interface IWeb3Config extends AbstractNetworkOptions {
+  chain: string;
+  name: string;
 }
 
-export const NATIVE_CURRENCY_ADDRESS = '0x';
-export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-export const NULL_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
-
-export interface ITransaction {
+export interface IWeb3Transaction {
   hash: string;
   nonce: number;
   blockHash: string | null;
@@ -25,7 +21,7 @@ export interface ITransaction {
   input: string;
 }
 
-export interface IBlock {
+export interface IWeb3Block {
   number: number;
   hash: string;
   parentHash: string;
@@ -42,7 +38,7 @@ export interface IBlock {
   difficulty: number;
   totalDifficulty: number;
   uncles: string[];
-  transactions: ITransaction[];
+  transactions: IWeb3Transaction[];
 }
 
 export interface IGetPastEventsOptions {

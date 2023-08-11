@@ -1,4 +1,4 @@
-import { UserStatus, } from './user.enum';
+import { UserStatus, } from './users.enum';
 
 export interface UserSettings {
   oldStatus?: UserStatus;

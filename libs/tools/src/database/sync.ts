@@ -1,6 +1,7 @@
 import { ConfigModule, ConfigService, } from '@nestjs/config';
-import { databaseConfig, } from '@libs/config/database';
 import { DataSource, } from 'typeorm';
+
+import { databaseConfig, } from '@libs/config/database';
 
 async function init() {
   ConfigModule.forRoot();
