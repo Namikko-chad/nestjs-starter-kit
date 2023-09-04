@@ -11,6 +11,18 @@
      "env": {
        "ENV": "prod"
      }
+   },
+   {
+     "name": "chat-service",
+     "exec_mode": "fork",
+     "instances": "1",
+     "script": "./dist/apps/chat-service/src/main.js",
+     "autorestart": true,
+     "listen_timeout": 15000,
+     "time": true,
+     "env": {
+       "ENV": "prod"
+     }
    }
  ]
 }

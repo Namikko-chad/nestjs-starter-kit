@@ -7,8 +7,8 @@ export function initSwagger(app: INestApplication, config: ConfigService) {
   const routePrefix = config.get<string>('ROUTE_PREFIX') ?? 'api';
   const route = config.get<string>('SWAGGER_PREFIX') ?? 'documentation';
   const documentBuilder = new DocumentBuilder()
-    .setTitle('NestJS starter kit API Documentation')
-    .setDescription('NestJS starter kit API Documentation')
+    .setTitle('Chat API Documentation')
+    .setDescription('Chat API Documentation')
     .setVersion('1.0')
     .addBearerAuth()
     .addServer(`http://${url}/${routePrefix}`)

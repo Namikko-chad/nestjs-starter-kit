@@ -1,0 +1,1 @@
+export { ChatModule, } from './chats.module';

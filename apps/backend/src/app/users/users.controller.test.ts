@@ -10,7 +10,7 @@ import { SessionService, } from '../auth';
 import { AuthModule, } from '../auth/auth.module';
 import { JwtResponse, } from '../auth/strategies';
 import { DatabaseModule, } from '../database/database.module';
-import { UsersEntityGenerator, } from './users.generators';
+import { UsersGenerator, } from './users.generators';
 import { UsersModule, } from './users.module';
 import { UsersService, } from './users.service';
 
@@ -18,7 +18,7 @@ describe('Users controller test', () => {
   let moduleRef: TestingModule;
   let app: INestApplication;
   let httpServer: HttpServer;
-  let userGenerator: UsersEntityGenerator;
+  let userGenerator: UsersGenerator;
   let usersService: UsersService;
   let sessionService: SessionService;
   let authTokens: JwtResponse;
@@ -39,7 +39,7 @@ describe('Users controller test', () => {
     usersService = moduleRef.get(UsersService);
     const ds = moduleRef.get(DataSource);
     sessionService = moduleRef.get(SessionService);
-    userGenerator = new UsersEntityGenerator(ds);
+    userGenerator = new UsersGenerator(ds);
     app = moduleRef.createNestApplication();
     httpServer = app.getHttpServer() as HttpServer;
 

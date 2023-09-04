@@ -3,7 +3,7 @@ import { DataSource, } from 'typeorm';
 
 import { databaseConfig, } from '@libs/config/database';
 
-const schemas = ['public', 'logs', 'blockchain_gateway'];
+const schemas = ['public', 'logs', 'blockchain_gateway', 'chat'];
 
 async function init(): Promise<void> {
   ConfigModule.forRoot();
